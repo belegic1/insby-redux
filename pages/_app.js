@@ -1,16 +1,19 @@
 import '../styles/globals.css'
 import { Provider} from "react-redux"
-import store from '../redux/store'
+import {store, persistor} from '../redux/store'
 import Navbar from '../components/navbar.component'
+import {PersistGate} from "redux-persist/integration/react"
 
 function MyApp({ Component, pageProps,  }) {
 
 
   return <Provider store={store} >
-    <div>
-      <Navbar />
-      <Component {...pageProps} />
-   </div>
+    <PersistGate persistor={persistor}>
+      <div>
+        <Navbar />
+        <Component {...pageProps} />
+      </div>
+   </PersistGate>
   </Provider>
 }
 

@@ -11,22 +11,25 @@ const Login = ({ token,user,setCurrentUser }) => {
 
     const [errorMsg, setErrorMsg] = useState(null)
     const [username, setUsername] = useState("")
-    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [rememberme, setRememberme] = useState(false)
-
+    const [confirmPasswordInput, setConfirmPassswordInput] = useState(false)
 
     async function register() {
         if (token) {
             const raw = {
-                "login":'dragan1',
-                "password": 'password',
-                "confirmPassword": 'password',
+                "login":username,
+                "password": password,
                 "rememberMe": true,
                 "autoRegister": true,
                 "admin": false
             }
+
+            if (confirmPassword) {
+                raw.confirmPassword = confirmPassword
+            }
+
             const requestOptions = {
                 method: 'POST',
 
@@ -51,45 +54,31 @@ const Login = ({ token,user,setCurrentUser }) => {
 
 
 
-    const registerUser = async () => {
-
-      
+  
 
 
+    const handleSubmit = async e => {
+        e.preventDefault()
         setCurrentUser(await register())
 
         setTimeout(() => {
-            if (user && user.errors) {
-                setErrorMsg(user.errors.sessions[0])
+            if (user && user.data && user.data.token) {
+                router.push('/')
             }
-            else if (user && user.data) {
-                console.log({dd:user.data});
-                router.push("/")
+            else if (user && user.errors) {
+                setErrorMsg(user.errors.sessions[0].split(".")[2], () => {
+                    if (errorMsg === "PasswordsNoMatch") {
+                        setConfirmPassswordInput(true)
+                    }
+                })
             }
-        }, 500);
-
-
+        }, 500)
+             
     }
-
-
-    const handleSubmit = e => {
-        e.preventDefault()
-    }
-
-   
 
   return (
       <div>
-          <h1>Login</h1>
-          <button onClick={registerUser} >Register</button>
-
-          <div>{errorMsg}</div>
-          <div>{user && user.errors && JSON.stringify(user.errors.sessions[0])}</div>
-
-
-
-
-
+        
           <div className={styles.login}>
 
               <div>
@@ -97,9 +86,11 @@ const Login = ({ token,user,setCurrentUser }) => {
               <form onSubmit={handleSubmit}>
                   <div className={styles.form}>
                       <input value={username} onChange={e => setUsername(e.target.value)} className={styles.input} type="text" placeholder='Username' />
-                      <input value={email} onChange={e => setEmail(e.target.value)} className={styles.input} type="email" placeholder='Email' />
+                     
                       <input value={password} onChange={e => setPassword(e.target.value)} className={styles.input} type="password" placeholder="Password" />
-                      <input value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className={styles.input} type="password" placeholder="Confirm password" />
+                      {confirmPasswordInput && <>
+                          <p>Please confirm your password:</p>
+                          <input value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className={styles.input} type="password" placeholder="Confirm password" /></>}
                       <div>
                           <input className={styles.input} type="checkbox" name="Remember me" id="rememberme" />
                           <label value={rememberme} onChange={e => setRememberme(e.target.checked)} className={styles.label} htmlFor="rememberme">Remember me</label>

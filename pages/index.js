@@ -12,7 +12,8 @@ function Home({  token, setToken, menu,setMenu }) {
 
   useEffect(() => {
 
-    const auth = "Basic " + new Buffer("rXLHTc7OSllRAFQIaGof660V80a3b9LeMVbHkCyHUPY5DvV2f29Fy1psXhQMdtjuocJeYcMSPxSYlksGHTL5M6YsafbNw34NexqXqfrSd:SnlZH8fMs0H48S0sLcuO05WMoH8GvNPgko6RqSfvZCX2kp3P2q0583QLqZWw90eyRkXiwss5pjFqhO9Lmjd1lW3fHHQdrze3HJrlUCsJp6h").toString("base64")
+    const auth = "Basic " + new Buffer(`${process.env.USERNAME}:${process.env.PASSWORD}`).toString("base64")
+ 
     const raw = { "uuid": "04b9a5fd-38ce-436e-873b-f28c4e847426", "uuidOS": "Linux" };
 
     const requestOptions = {
