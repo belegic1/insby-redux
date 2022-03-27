@@ -1,0 +1,16 @@
+.header{
+  padding: 30px 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  background-color: aqua;
+}
+
+.l{
+  background-color: rgb(101, 101, 207);
+  color: white;
+}
+
+.username{
+  margin-left: 10px;
+}
