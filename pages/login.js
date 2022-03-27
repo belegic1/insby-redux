@@ -62,15 +62,14 @@ const Login = ({ token,user,setCurrentUser }) => {
         setCurrentUser(await register())
 
         setTimeout(() => {
-            if (user && user.data && user.data.token) {
+            if (user && user.data && (user.data.user.username || user.data.email )) {
                 router.push('/')
             }
             else if (user && user.errors) {
-                setErrorMsg(user.errors.sessions[0].split(".")[2], () => {
-                    if (errorMsg === "PasswordsNoMatch") {
-                        setConfirmPassswordInput(true)
-                    }
-                })
+                setErrorMsg(user.errors.sessions[0].split(".")[2])
+                if (user.errors.sessions[0] === "API.SignIn.PasswordsNoMatch") {
+                    setConfirmPassswordInput(true)
+                }
             }
         }, 500)
              

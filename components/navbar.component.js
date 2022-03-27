@@ -11,13 +11,15 @@ const Navbar = ({ user }) => {
         <div className={styles.header}>
           <div>
               
-              {user && user.data && user.data.user && <span className={styles.username}>({user.data.user.username})
+              {user && user.data && user.data.user.username && <span className={styles.username}>({user.data.user.username})
               </span>}
-        <span>
+        {user && user.data && user.data.email && <span className={styles.username}>({user.data.email})
+              </span>}
+        <span className={styles.username} >
           <Link className={styles.l} href='/'>Home</Link>
         </span>
 
-        <span>
+        <span className={styles.username} >
           <Link className={styles.l} href='/login'>Sign-up/Login</Link>
               </span>
         
